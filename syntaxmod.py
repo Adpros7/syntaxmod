@@ -1,5 +1,7 @@
 from types import FunctionType, LambdaType
 import time as t
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 from pygame import *
 from datetime import datetime
 
@@ -33,10 +35,29 @@ class PygameInit():
                     running = False
 
 class Stopwatch:
-    pass
+    def __init__(self):
+        self.time = 0
+        self.start_time = t.time()
+
+    def reset(self):
+        self.time = 0
+        self.start_time = t.time()
+
+    def resume(self):
+        while True:
+            self.time += t.time() - self.start_time
+            self.start_time = t.time()
+
+    def pause(self):
+        self.start_time = t.time()
+
+    def __call__(self):
+        return self.time
 
 #test
 if __name__ == "__main__":
-    stopwatch()
+    stopwatch = Stopwatch()
+    stopwatch.resume()
     wait(5)
+    stopwatch.pause()
     print(stopwatch())    
