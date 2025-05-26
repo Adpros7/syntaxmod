@@ -7,10 +7,12 @@ from datetime import datetime
 
 
 
-def loop(times, func: FunctionType or LambdaType, params: list=None):
+def loop(times, func: FunctionType or LambdaType, params=None):
     for i in range(times):
         if params is None:
             func()
+        elif isinstance(params, list):
+            func(*params)
         else:
             func(params)
 
@@ -18,7 +20,7 @@ def wait(seconds: int):
     t.sleep(seconds)
 
 def printstr(str):
-    print(str)
+    print(str(str))
 
 class PygameInit():
     def __init__(self, width: int, height: int, title: str, backgroundpic: str=None):
@@ -33,31 +35,37 @@ class PygameInit():
             for event in get().get():
                 if event.type == QUIT:
                     running = False
+                    break
+            if not running:
+                break
 
 class Stopwatch:
     def __init__(self):
         self.time = 0
         self.start_time = t.time()
+        self.paused = False
 
     def reset(self):
         self.time = 0
         self.start_time = t.time()
 
     def resume(self):
-        while True:
+        while self.paused is False:
             self.time += t.time() - self.start_time
             self.start_time = t.time()
+        else: return
 
     def pause(self):
-        self.start_time = t.time()
+        self.paused = True
 
-    def __call__(self):
+    def __call__(self) -> float:
         return self.time
 
+
 #test
-if __name__ == "__main__":
-    stopwatch = Stopwatch()
-    stopwatch.resume()
-    wait(5)
-    stopwatch.pause()
-    print(stopwatch())    
+stopwatch = Stopwatch()
+printstr(stepx)
+stopwatch.resume()
+while True:
+    print(stopwatch())
+    wait(1)
