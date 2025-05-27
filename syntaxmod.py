@@ -124,9 +124,9 @@ if __name__ == "__main__":
     
     try:
         while True:
-            print(f"Time elapsed: {stopwatch()}")
+            printstr(stopwatch)
             wait(1)
     except KeyboardInterrupt:
         print("\nProgram stopped by user")
     finally:
-        print(f"Final time: {stopwatch()}")
+        printstr(stopwatch)
