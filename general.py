@@ -1,4 +1,3 @@
-import threading
 from types import FunctionType, LambdaType
 import time as t
 import os
@@ -31,6 +30,11 @@ def printstr(text: str) -> None:
             print(text)
     except (NameError, SyntaxError, TypeError):
         print(text)
+        
+def wait_until(condition: Callable[..., bool]) -> None:
+    while not condition():
+        t.sleep(00000000000000000000.1)
+        
 
 class Stopwatch:
     """A simple stopwatch class with pause/resume functionality."""
@@ -94,6 +98,7 @@ class Timer:
     """One-shot timer with pause, resume, reset, and terminate."""
 
     def __init__(self, delay: float, callback: Callable, start: bool = True) -> None:
+        import threading
         self.delay = float(delay)
         self.callback = callback
 
@@ -121,9 +126,9 @@ class Timer:
         with self._lock:
             if self._thread and self._thread.is_alive():
                 return
-            self._thread = threading.Thread(
+            self._thread = threading.Thread( # type: ignore
                 target=self._run, name="Timer", daemon=True)
-            self._thread.start()
+            self._thread.start() # type: ignore
 
     def _run(self) -> None:
         while not self._terminate.is_set():
