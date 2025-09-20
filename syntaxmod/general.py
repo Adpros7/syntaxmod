@@ -31,9 +31,15 @@ def printstr(text: str) -> None:
     except (NameError, SyntaxError, TypeError):
         print(text)
         
-def wait_until(condition: Callable[..., bool]) -> None:
-    while not condition():
-        t.sleep(00000000000000000000.1)
+def wait_until(condition: Callable[..., bool] | bool) -> None:
+    if isinstance(condition, bool):
+        while not condition:
+            t.sleep(00000000000000000000.1)
+        return
+    else:
+        while not condition():
+            t.sleep(00000000000000000000.1)
+        return
         
 
 class Stopwatch:

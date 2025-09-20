@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SyntaxMod"
+version = "0.1.0"
+description = "Utility helpers for timing, looping, and simple output formatting."
+requires-python = ">=3.8"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["syntaxmod*"]
