@@ -3,6 +3,7 @@ import time as t
 import os
 from datetime import datetime
 from typing import Any, Callable, List, Optional
+from warnings import deprecated
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
@@ -21,6 +22,7 @@ def wait(seconds: float) -> None:
     """Pause execution for a specified number of seconds."""
     t.sleep(seconds)
 
+@deprecated("Use regular print instead")
 def printstr(text: str) -> None:
     """Print text, evaluating it first if it's a valid Python expression."""
     try:
@@ -31,7 +33,7 @@ def printstr(text: str) -> None:
     except (NameError, SyntaxError, TypeError):
         print(text)
         
-def wait_until(condition: Callable[..., bool] | bool) -> None:
+def wait_until(condition: Callable[...] | bool) -> None:
     if isinstance(condition, bool):
         while not condition:
             t.sleep(00000000000000000000.1)
@@ -231,3 +233,8 @@ class Timer:
 
     def __int__(self) -> int:
         return int(self.get_elapsed())
+
+    def __bool__(self) -> bool:
+        return self.is_done()
+
+
