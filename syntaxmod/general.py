@@ -8,6 +8,7 @@ from warnings import deprecated
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 
+@deprecated("Use for loop instead")
 def loop(times: int, func: Callable, params: Optional[List[Any]] = None) -> None:
     """Execute a function multiple times with optional parameters."""
     for _ in range(times):
@@ -18,9 +19,11 @@ def loop(times: int, func: Callable, params: Optional[List[Any]] = None) -> None
         else:
             func(params)
 
+
 def wait(seconds: float) -> None:
     """Pause execution for a specified number of seconds."""
     t.sleep(seconds)
+
 
 @deprecated("Use regular print instead")
 def printstr(text: str) -> None:
@@ -32,8 +35,9 @@ def printstr(text: str) -> None:
             print(text)
     except (NameError, SyntaxError, TypeError):
         print(text)
-        
-def wait_until(condition: Callable[...] | bool) -> None:
+
+
+def wait_until(condition: Callable[..., Any] | bool) -> None:
     if isinstance(condition, bool):
         while not condition:
             t.sleep(00000000000000000000.1)
@@ -42,18 +46,19 @@ def wait_until(condition: Callable[...] | bool) -> None:
         while not condition():
             t.sleep(00000000000000000000.1)
         return
-        
+
 
 class Stopwatch:
     """A simple stopwatch class with pause/resume functionality."""
-    def __init__(self, start = False):
+
+    def __init__(self, start=False):
         self.elasped: float = 0
         self.paused = start
         self.start_time = t.time()
         self.pause_time = 0
         if self.paused:
             self.last_pause_time = self.start_time
-            
+
         else:
             self.last_pause_time = 0
 
@@ -66,7 +71,7 @@ class Stopwatch:
 
         else:
             return self.elasped
-        
+
     def resume(self) -> float:
         if self.paused:
             self.paused = False
@@ -76,31 +81,31 @@ class Stopwatch:
         else:
             return t.time() - self.start_time - self.pause_time
 
-    def reset(self, start = False) -> float:
+    def reset(self, start=False) -> float:
         self.elasped = 0
         self.paused = start
         self.start_time = t.time()
         self.pause_time = 0
         return self.elasped
-        
+
     def get_elasped_time(self):
         return self.elasped
-    
+
     def get_pause_time(self):
         return self.pause_time
-    
+
     def get_start_time(self):
         return self.start_time
-    
+
     def get_last_pause_time(self):
         return self.last_pause_time
 
     def get_paused_flag(self):
         return self.paused
-    
+
     def __repr__(self) -> str:
         return str(self.elasped)
-    
+
 
 class Timer:
     """One-shot timer with pause, resume, reset, and terminate."""
@@ -134,9 +139,9 @@ class Timer:
         with self._lock:
             if self._thread and self._thread.is_alive():
                 return
-            self._thread = threading.Thread( # type: ignore
+            self._thread = threading.Thread(  # type: ignore
                 target=self._run, name="Timer", daemon=True)
-            self._thread.start() # type: ignore
+            self._thread.start()  # type: ignore
 
     def _run(self) -> None:
         while not self._terminate.is_set():
@@ -236,5 +241,3 @@ class Timer:
 
     def __bool__(self) -> bool:
         return self.is_done()
-
-
