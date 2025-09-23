@@ -1,22 +1,32 @@
-"""Top-level package exports for syntaxmod utilities."""
+"""Convenience exports for syntaxmod's timing and looping helpers."""
+
+from importlib import metadata as _metadata
 
 from .general import (
+    Stopwatch,
+    Timer,
     loop,
     printstr,
     wait,
     wait_until,
-    Stopwatch,
-    Timer,
 )
 
-__all__ = [
+__all__ = (
     "loop",
     "wait",
     "printstr",
     "wait_until",
     "Stopwatch",
     "Timer",
-]
+)
 
-__version__ = "0.1.0"
+try:
+    __version__ = _metadata.version("syntaxmod")
+except _metadata.PackageNotFoundError:  # pragma: no cover - fallback for editable installs
+    __version__ = "0.1.0"
 
+__author__ = "Advik Mathur"
+__email__ = "pranit.advik@gmail.com"
+
+# avoid leaking helper into the public namespace
+del _metadata

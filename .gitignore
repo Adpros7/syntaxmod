@@ -10,3 +10,6 @@ SyntaxMod.egg-info/PKG-INFO
 .gitignore
 SyntaxMod.egg-info/top_level.txt
 /build
+dist/syntaxmod-0.1.0-py3-none-any.whl
+/dist
+syntaxmod.egg-info/requires.txt
